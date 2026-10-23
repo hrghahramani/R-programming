@@ -1,14 +1,41 @@
 
-# Session 1 - Tasks
-# Name: Hamid Reza Ghahramani
-# Topic: R Programming for Neuroscience
+# Session 1 - Task 1: Exam Scores
+# R Programming for Neuroscience
 
-# ==========================================
+# Name: Hamid Reza Ghahramani
+
+# Questions:
+#
 # Task 1 - Exam Scores
-# ==========================================
+#
+# exam1 <- c(15, 22, 18, 30, 25, 10, 28, 17, 20, 27, 23, 19)
+# exam2 <- c(18, 24, 21, 29, 26, 12, 30, 19, 22, 28, 25, 20)
+#
+# Instructions:
+#
+# 1. Compute average score for each student.
+#
+# 2. Identify top students:
+#    - Scores > 25 in both exams
+#    - Scores < 20 in either exam
+#
+# 3. Select 3rd, 5th, 8th students from Exam1.
+#
+# 4. Select last 4 students from Exam2.
+#
+# 5. Select students with average > 24.
+#
+# 6. Update 6th student Exam1 score to 21.
+#
+# 7. Correct 10th student Exam2 score from 28 to 26.
+#
+# ==================================================
+# Answers
+# ==================================================
 
 # 1. Create vectors
 exam1 <- c(15, 22, 18, 30, 25, 10, 28, 17, 20, 27, 23, 19)
+
 exam2 <- c(18, 24, 21, 29, 26, 12, 30, 19, 22, 28, 25, 20)
 
 # 2. Compute average score for each student
@@ -18,74 +45,33 @@ print(average)
 # 3. Students scoring above 25 in both exams
 print(which(exam1 > 25 & exam2 > 25))
 
-# 4. Students scoring below 20 in either exam
+# Students scoring below 20 in either exam
 print(which(exam1 < 20 | exam2 < 20))
 
-# 5. Select 3rd, 5th, and 8th students from Exam 1
+# 4. Select 3rd, 5th, and 8th students from Exam1
 print(exam1[c(3, 5, 8)])
 
-# 6. Select the last 4 students from Exam 2
+# 5. Select the last 4 students from Exam2
 print(tail(exam2, 4))
 
-# 7. Students with an average score above 24
+# 6. Select students with average score above 24
 print(which(average > 24))
 
-# 8. Update the 6th student's Exam 1 score to 21
+# 7. Update the 6th student's Exam1 score to 21
 exam1[6] <- 21
 
-# 9. Correct the 10th student's Exam 2 score from 28 to 26
+# 8. Correct the 10th student's Exam2 score from 28 to 26
 exam2[10] <- 26
 
-# 10. Recalculate averages after updating scores
+# 9. Recalculate average scores after updates
 average <- (exam1 + exam2) / 2
 print(average)
 
-# 11. Display updated vectors
+# 10. Display updated exam scores
 print(exam1)
 print(exam2)
 
-# 12. Recheck conditions using updated scores
+# 11. Check conditions again after updates
 print(which(exam1 > 25 & exam2 > 25))
 print(which(exam1 < 20 | exam2 < 20))
 print(which(average > 24))
-
-
-# ==========================================
-# Task 2 - Psychological Test
-# ==========================================
-
-# 1. Create vectors
-response_time <- c(10, 35, 23, 21, 50, 24, 15, 33, 22, 19, 27, 22, 23, 26, 34)
-
-accuracy <- c(10, 7, 8, 1, 5, 10, 6, 8, 9, 10, 6, 7, 7, 6, 3)
-
-# 2. Compute the mean of the first 10 participants
-mean(response_time[1:10])
-mean(accuracy[1:10])
-
-# 3. Compute the variance of the last 10 participants
-var(response_time[6:15])
-var(accuracy[6:15])
-
-# 4. Calculate mean and sum of response_time
-mean(response_time)
-sum(response_time)
-
-# Calculate mean and sum of accuracy
-mean(accuracy)
-sum(accuracy)
-
-# Calculate total for each participant
-total <- response_time + accuracy
-print(total)
-
-# Calculate mean and sum of total
-mean(total)
-sum(total)
-
-# 5. Identify cases with response_time > 10 and accuracy < 5
-which(response_time > 10 & accuracy < 5)
-
-# Display response_time and accuracy for matching participants
-response_time[which(response_time > 10 & accuracy < 5)]
-accuracy[which(response_time > 10 & accuracy < 5)]
