@@ -1,0 +1,91 @@
+
+# Session 1 - Tasks
+# Name: Hamid Reza Ghahramani
+# Topic: R Programming for Neuroscience
+
+# ==========================================
+# Task 1 - Exam Scores
+# ==========================================
+
+# 1. Create vectors
+exam1 <- c(15, 22, 18, 30, 25, 10, 28, 17, 20, 27, 23, 19)
+exam2 <- c(18, 24, 21, 29, 26, 12, 30, 19, 22, 28, 25, 20)
+
+# 2. Compute average score for each student
+average <- (exam1 + exam2) / 2
+print(average)
+
+# 3. Students scoring above 25 in both exams
+print(which(exam1 > 25 & exam2 > 25))
+
+# 4. Students scoring below 20 in either exam
+print(which(exam1 < 20 | exam2 < 20))
+
+# 5. Select 3rd, 5th, and 8th students from Exam 1
+print(exam1[c(3, 5, 8)])
+
+# 6. Select the last 4 students from Exam 2
+print(tail(exam2, 4))
+
+# 7. Students with an average score above 24
+print(which(average > 24))
+
+# 8. Update the 6th student's Exam 1 score to 21
+exam1[6] <- 21
+
+# 9. Correct the 10th student's Exam 2 score from 28 to 26
+exam2[10] <- 26
+
+# 10. Recalculate averages after updating scores
+average <- (exam1 + exam2) / 2
+print(average)
+
+# 11. Display updated vectors
+print(exam1)
+print(exam2)
+
+# 12. Recheck conditions using updated scores
+print(which(exam1 > 25 & exam2 > 25))
+print(which(exam1 < 20 | exam2 < 20))
+print(which(average > 24))
+
+
+# ==========================================
+# Task 2 - Psychological Test
+# ==========================================
+
+# 1. Create vectors
+response_time <- c(10, 35, 23, 21, 50, 24, 15, 33, 22, 19, 27, 22, 23, 26, 34)
+
+accuracy <- c(10, 7, 8, 1, 5, 10, 6, 8, 9, 10, 6, 7, 7, 6, 3)
+
+# 2. Compute the mean of the first 10 participants
+mean(response_time[1:10])
+mean(accuracy[1:10])
+
+# 3. Compute the variance of the last 10 participants
+var(response_time[6:15])
+var(accuracy[6:15])
+
+# 4. Calculate mean and sum of response_time
+mean(response_time)
+sum(response_time)
+
+# Calculate mean and sum of accuracy
+mean(accuracy)
+sum(accuracy)
+
+# Calculate total for each participant
+total <- response_time + accuracy
+print(total)
+
+# Calculate mean and sum of total
+mean(total)
+sum(total)
+
+# 5. Identify cases with response_time > 10 and accuracy < 5
+which(response_time > 10 & accuracy < 5)
+
+# Display response_time and accuracy for matching participants
+response_time[which(response_time > 10 & accuracy < 5)]
+accuracy[which(response_time > 10 & accuracy < 5)]
