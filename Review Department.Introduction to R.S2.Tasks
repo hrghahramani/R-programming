@@ -1,0 +1,295 @@
+
+# Session 2 Tasks
+# Name: Hamid Reza Ghahramani
+# Topic: Matrices, Factors, Lists, and Data Frames
+
+
+# ============================================================
+# Task 1 - Matrices
+# ============================================================
+
+# 1. Create a 4x4 matrix A with numbers 1 to 16 (column-wise).
+# By default, matrix() fills values column by column.
+
+A <- matrix(1:16, nrow = 4, ncol = 4)
+A
+
+
+# 2. Indexing & Subsetting
+
+# Element in row 3, column 2.
+A[3, 2]
+
+# First two rows and last two columns.
+# 1:2 selects rows 1 and 2.
+# 3:4 selects columns 3 and 4.
+A[1:2, 3:4]
+
+# All elements in odd-numbered rows (rows 1 and 3).
+# c(1, 3) selects rows 1 and 3.
+# Leaving the column index empty selects all columns.
+A[c(1, 3), ]
+
+
+# 3. Modifying Values
+
+# Increase every element in row 4 by 10.
+A[4, ] <- A[4, ] + 10
+A
+
+# Set every element in column 1 to 0.
+A[, 1] <- 0
+A
+
+
+# 4. Matrix Arithmetic
+
+# Create a 4x4 matrix B with numbers 16 to 1 (row-wise).
+# byrow = TRUE fills the matrix row by row.
+B <- matrix(16:1, nrow = 4, ncol = 4, byrow = TRUE)
+B
+
+# C = A + B performs element-wise addition.
+C <- A + B
+C
+
+# D = A %*% B performs matrix multiplication.
+# Each result element is calculated using a row of A
+# and a column of B.
+D <- A %*% B
+D
+
+
+# 5. Combining Matrices
+
+# E combines A and B side by side (column binding).
+E <- cbind(A, B)
+E
+
+# F combines A and B vertically (row binding).
+F <- rbind(A, B)
+F
+
+
+# 6. Analysis
+
+# Find the maximum value in matrix C.
+max(C)
+
+
+# ============================================================
+# Task 2 - Factors
+# ============================================================
+
+# Given fruit data.
+fruits <- c("Apple", "Banana", "Apple",
+            "Orange", "Banana", "Apple")
+
+
+# 1. Create a factor with default levels.
+# R automatically determines the levels.
+fruit_factor <- factor(fruits)
+fruit_factor
+
+
+# 2. Create a factor with explicit levels.
+# Mango is included as a level even though it is not in fruits.
+fruit_factor_full <- factor(
+  fruits,
+  levels = c("Apple", "Banana", "Orange", "Mango")
+)
+fruit_factor_full
+
+
+# 3. Label levels.
+# Replace the original level labels with shorter labels.
+levels(fruit_factor_full) <- c("A", "B", "O", "M")
+fruit_factor_full
+
+
+# 4. Inspect fruit_factor_full.
+
+# Display the internal structure of the factor.
+str(fruit_factor_full)
+
+# Count the number of levels.
+nlevels(fruit_factor_full)
+
+# Display all levels.
+levels(fruit_factor_full)
+
+# Show the frequency of each level.
+summary(fruit_factor_full)
+
+
+# 5. Create an ordered factor based on preference.
+# The order is Apple < Banana < Orange < Mango.
+fruit_ordered <- factor(
+  fruits,
+  levels = c("Apple", "Banana", "Orange", "Mango"),
+  ordered = TRUE
+)
+fruit_ordered
+
+
+# ============================================================
+# Task 3 - Lists of Students
+# ============================================================
+
+# Given student information.
+Names <- c("Alice", "Bob", "Charlie")
+Math <- c(18, 25, 22)
+Science <- c(20, 23, 21)
+PassedMath <- c(TRUE, TRUE, TRUE)
+PassedScience <- c(TRUE, FALSE, TRUE)
+
+
+# 1. Create a nested list called students.
+# Names stores student names.
+# Scores contains Math and Science scores.
+# Passed contains pass statuses for both subjects.
+
+students <- list(
+  Names = Names,
+  Scores = list(
+    Math = Math,
+    Science = Science
+  ),
+  Passed = list(
+    Math = PassedMath,
+    Science = PassedScience
+  )
+)
+
+students
+
+
+# 2. Access Elements
+
+# Bob's Science score.
+# Bob is the second student.
+students$Scores$Science[2]
+
+# Charlie's Math pass status.
+# Charlie is the third student.
+students$Passed$Math[3]
+
+# Display all Math scores.
+students$Scores$Math
+
+
+# 3. Indexing
+
+# Display the first two student names.
+students$Names[1:2]
+
+# Display Science scores for students who passed Math.
+# students$Passed$Math returns TRUE/FALSE values.
+# These logical values are used to select Science scores.
+students$Scores$Science[students$Passed$Math]
+
+
+# 4. Modifying
+
+# Change Alice's Math score to 21.
+# Alice is the first student.
+students$Scores$Math[1] <- 21
+
+# Add Diana to the list of student names.
+students$Names <- c(students$Names, "Diana")
+
+# Add Diana's scores.
+students$Scores$Math <- c(students$Scores$Math, 24)
+students$Scores$Science <- c(students$Scores$Science, 22)
+
+# Add Diana's pass statuses.
+students$Passed$Math <- c(students$Passed$Math, TRUE)
+students$Passed$Science <- c(students$Passed$Science, TRUE)
+
+# Display the updated list.
+students
+
+
+# 5. Analysis
+
+# Display students who passed both subjects.
+# & means both conditions must be TRUE.
+students$Names[
+  students$Passed$Math & students$Passed$Science
+]
+
+# Calculate the average Science score.
+mean(students$Scores$Science)
+
+
+# ============================================================
+# Task 4 - Data Frames
+# ============================================================
+
+# Use the built-in mtcars dataset.
+df <- mtcars
+
+
+# 1. Inspect the data frame.
+
+# Display the first six rows.
+head(df)
+
+# Display the last four rows.
+tail(df, 4)
+
+# Count the number of rows.
+nrow(df)
+
+# Count the number of columns.
+# length() returns the number of columns for a data frame.
+length(df)
+
+
+# 2. Indexing & Subsetting
+
+# Display mpg in row 10.
+df$mpg[10]
+
+# Display the first three rows and the mpg and cyl columns.
+df[1:3, c("mpg", "cyl")]
+
+# Display all rows where cyl equals 6.
+# df$cyl selects the cyl column.
+# == 6 checks which rows have exactly six cylinders.
+# The comma separates row selection from column selection.
+# Leaving the column part empty selects all columns.
+df[df$cyl == 6, ]
+
+# Display rows where mpg is greater than 20
+# AND gear equals 4.
+# & means both conditions must be TRUE.
+df[df$mpg > 20 & df$gear == 4, ]
+
+
+# 3. Adding/Modifying Columns
+
+# Create a new column: horsepower divided by weight.
+df$power_to_weight <- df$hp / df$wt
+
+# Change gear to 5 for cars with mpg greater than 25.
+# Only the selected rows are modified.
+df$gear[df$mpg > 25] <- 5
+
+
+# 4. Summary & Analysis
+
+# Calculate average horsepower for cars with 8 cylinders.
+mean(df$hp[df$cyl == 8])
+
+# Count automatic transmission cars (am = 0).
+# sum() counts the TRUE values in the logical condition.
+sum(df$am == 0)
+
+# Find the maximum power-to-weight ratio.
+max(df$power_to_weight)
+
+
+# ============================================================
+# End of Session 2 Tasks
+# ============================================================
