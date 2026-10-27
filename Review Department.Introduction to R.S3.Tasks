@@ -1,0 +1,265 @@
+
+# Name: Hamid Reza Ghahramani
+# Project: R for Neuroscience
+# Session 3 - Tasks
+# Topics: Data Frames, Loops, Functions, Apply Family, and fMRI Date Analysis
+
+
+# ============================================================
+# Task 1: Student Data and Loop Control
+# ============================================================
+
+# 1. Create a data frame containing five students.
+# Generate random ages between 18 and 25 and random scores.
+# Ensure that at least one student has a score of 100.
+
+set.seed(123)
+
+student_df <- data.frame(
+  name = c("Ali", "Sara", "Reza", "Mina", "Amir"),
+  age = sample(18:25, 5, replace = TRUE),
+  score = c(sample(50:95, 4), 100)
+)
+
+# 2. Inspect the data frame.
+
+class(student_df)
+summary(student_df)
+str(student_df)
+View(student_df)
+
+# 3. Count students who are younger than 20 OR have a score above 90.
+
+count_students <- sum(
+  student_df$age < 20 | student_df$score > 90
+)
+
+print(count_students)
+
+# 4. Print a performance message for each student.
+
+for (i in 1:nrow(student_df)) {
+
+  if (student_df$score[i] > 90) {
+    print("Excellent")
+
+  } else if (student_df$score[i] >= 70) {
+    print("Good")
+
+  } else {
+    print("Needs Improvement")
+  }
+}
+
+# 5. Use a for loop with next and break.
+# Skip students with scores below 60.
+# Stop the loop when a score of 100 is found.
+
+for (i in 1:nrow(student_df)) {
+
+  if (student_df$score[i] == 100) {
+    print("Score of 100 found. Stopping the loop.")
+    break
+  }
+
+  if (student_df$score[i] < 60) {
+    next
+  }
+
+  print(paste(
+    "Name:", student_df$name[i],
+    "| Age:", student_df$age[i]
+  ))
+}
+
+
+# ============================================================
+# Task 2: Functions and Apply Family
+# ============================================================
+
+# 1. Define a function that returns Pass or Fail.
+# A score of 60 or higher is considered a passing score.
+
+pass_fail <- function(score) {
+
+  if (score >= 60) {
+    return("Pass")
+  } else {
+    return("Fail")
+  }
+}
+
+# Test the function with several scores.
+
+pass_fail(75)
+pass_fail(45)
+pass_fail(60)
+pass_fail(95)
+
+# 2. Create a list containing the exam scores of three students.
+
+grades <- list(
+  c(70, 65, 80, 90, 75),
+  c(55, 60, 58, 62, 57),
+  c(88, 92, 85, 95, 90)
+)
+
+# 3. Define a function to calculate the minimum,
+# maximum, and average score of a numeric vector.
+
+min_max_avg <- function(scores) {
+
+  return(c(
+    Minimum = min(scores),
+    Maximum = max(scores),
+    Average = mean(scores)
+  ))
+}
+
+# Test the function with the first student's grades.
+
+min_max_avg(grades[[1]])
+
+# 4. Apply the function to all students using lapply().
+
+grade_summary <- lapply(grades, min_max_avg)
+
+print(grade_summary)
+
+
+# ============================================================
+# Task 3: Temporal Analysis of fMRI Data
+# ============================================================
+
+# 1. Import the fMRI dataset from a CSV file.
+# The file must be available in the working directory.
+
+fmri_data <- read.csv(
+  "fMRI_data.csv",
+  stringsAsFactors = FALSE
+)
+
+# Inspect the imported data.
+
+head(fmri_data)
+str(fmri_data)
+
+# 2. Convert scan_start and scan_end to date-time objects.
+
+fmri_data$scan_start <- strptime(
+  fmri_data$scan_start,
+  format = "%Y-%m-%d %H:%M:%S"
+)
+
+fmri_data$scan_end <- strptime(
+  fmri_data$scan_end,
+  format = "%Y-%m-%d %H:%M:%S"
+)
+
+# 3. Extract the hour, minute, weekday, and month
+# from the scan start time.
+
+fmri_data$hour <- as.integer(
+  format(fmri_data$scan_start, "%H")
+)
+
+fmri_data$minute <- as.integer(
+  format(fmri_data$scan_start, "%M")
+)
+
+fmri_data$weekday <- weekdays(
+  fmri_data$scan_start
+)
+
+fmri_data$month <- months(
+  fmri_data$scan_start
+)
+
+# 4. Calculate scan duration in seconds and minutes.
+
+fmri_data$duration_seconds <- as.numeric(
+  difftime(
+    fmri_data$scan_end,
+    fmri_data$scan_start,
+    units = "secs"
+  )
+)
+
+fmri_data$duration_minutes <- as.numeric(
+  difftime(
+    fmri_data$scan_end,
+    fmri_data$scan_start,
+    units = "mins"
+  )
+)
+
+# Display the results.
+
+print(fmri_data)
+
+
+# ============================================================
+# Task 4: Calculating Age at Different fMRI Scan Times
+# ============================================================
+
+# 1. Import the longitudinal fMRI dataset.
+# The file must be available in the working directory.
+
+fmri_age <- read.csv(
+  "fMRI_longitudinal_age.csv",
+  stringsAsFactors = FALSE
+)
+
+# 2. Load the lubridate package.
+# Install it if it is not already installed.
+
+if (!requireNamespace("lubridate", quietly = TRUE)) {
+  install.packages("lubridate")
+}
+
+library(lubridate)
+
+# 3. Convert birth dates and scan dates to Date objects.
+
+fmri_age$birth_date <- as.Date(
+  fmri_age$birth_date,
+  format = "%Y-%m-%d"
+)
+
+fmri_age$scan1_date <- as.Date(
+  fmri_age$scan1_date,
+  format = "%Y-%m-%d"
+)
+
+fmri_age$scan2_date <- as.Date(
+  fmri_age$scan2_date,
+  format = "%Y-%m-%d"
+)
+
+# 4. Calculate each participant's age at the first scan.
+
+fmri_age$age_scan1 <- time_length(
+  interval(fmri_age$birth_date, fmri_age$scan1_date),
+  unit = "year"
+)
+
+# 5. Calculate each participant's age at the second scan.
+
+fmri_age$age_scan2 <- time_length(
+  interval(fmri_age$birth_date, fmri_age$scan2_date),
+  unit = "year"
+)
+
+# 6. Calculate the age difference between the two sessions.
+
+fmri_age$age_difference <- (
+  fmri_age$age_scan2 - fmri_age$age_scan1
+)
+
+# Display the final results.
+
+print(fmri_age)
+
+# ============================================================
+# End of Session 3
+# ============================================================
